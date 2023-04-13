@@ -1,0 +1,66 @@
+{% extends "dashboard/base.html" %}
+
+{% block body %}
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+<style>
+
+    img.zoom {
+    width: 100%;
+    height: 200px;
+    border-radius:5px;
+    object-fit:cover;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+    -ms-transition: all .3s ease-in-out;
+}
+        
+ 
+.transition {
+    -webkit-transform: scale(1.2); 
+    -moz-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    transform: scale(1.2);
+}
+    .modal-header {
+   
+     border-bottom: none;
+}
+    .modal-title {
+        color:#000;
+    }
+    .modal-footer{
+      display:none;  
+    }
+
+</style>
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Create post</h4>
+                </div>
+                <div class="card-body">
+                    <input id="file_uploader" type="file" name="file" />
+                    <script type="text/javascript"
+                        src="{{ url_for('gallery.static', filename='jquery.min.js') }}"></script>
+                    <script type="text/javascript"
+                        src="{{ url_for('gallery.static', filename='jquery.masonry.min.js') }}"></script>
+                    <div class="row text-center text-lg-left">
+                    {% for image in images %}
+                    <div class="col-lg-3 col-md-4 col-6 thumb my-2 >
+                        <a href="#" class="fancybox" rel="ligthbox" >
+                            <img class="zoom img-fluid " src="{{ url_for('gallery.uploads', filename=image.path) }}" />
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div><!-- end content-->
+        </div><!--  end card  -->
+    </div> <!-- end col-md-12 -->
+</div> <!-- end row -->
+
+{% endblock %}

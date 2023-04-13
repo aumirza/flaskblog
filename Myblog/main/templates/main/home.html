@@ -1,0 +1,32 @@
+ {% extends "main/base.html" %}
+ {% include "main/includes/_hero.html" %}
+ {% block main %}
+
+
+ <!-- ======= Services Section ======= -->
+ <section id="posts" class="posts section-bg">
+    <div class="container" data-aos="fade-up">
+
+      <div class="section-title">
+        <h2>Recent Posts</h2>
+      </div>
+
+        <div class="row">
+          {% for post in posts %}
+
+            <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-md-0 aos-init aos-animate" data-aos="zoom-in" data-aos-delay="100">
+              <div class="post-box">
+                <div class="post-thumb">
+                  <img  src="{{url_for('main.static', filename='img/placeholder-200x150.png')}}" alt="Card image cap">
+                </div>
+                <h4 ><a href="{{url_for('main.post' , slug=post.slug)}}">{{post.title}}</a></h4>
+              </div>
+            </div>
+
+          {% endfor %}
+        </div>
+
+    </div>
+  </section><!-- End Services Section -->
+
+ {% endblock %}

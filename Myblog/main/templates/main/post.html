@@ -1,0 +1,24 @@
+{% extends "main/base.html" %}
+
+ {% block main %}
+
+ <article>
+
+  <!-- ======= Post Hero Section ======= -->
+  <section  id="post-hero" class="d-flex align-items-center">
+
+    <div class="container">
+          <h1 class="text-center">{{post.title}}</h1>
+    </div>
+
+  </section><!-- End Hero -->
+
+  <section class="post-content section-bg">
+      <div class="container" data-aos="fade-up">
+          {{post.content | safe }}
+      </div>
+  </section>
+
+
+</article>
+ {% endblock %}

@@ -1,0 +1,128 @@
+{% extends "dashboard/base.html" %}
+
+{% block body %}
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Create post</h4>
+                </div>
+                <div class="card-body">
+
+                    <form action="" method="POST">
+
+                        {{ form.hidden_tag() }}
+
+                        <div class="form-group">
+                            <label for="title" class="description">{{ form.title.label.text}}<span class="required">*</span></label>
+                            {{ form.title(class="form-control") }}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="slug" class="description">{{ form.slug.label.text}}<span class="required">*</span></label>
+                            {{ form.slug(class="form-control") }}
+                        </div>
+
+                                
+
+                        <div class="form-group">
+                            <label for="catogary">{{ form.catogary.label.text }}</label>
+                            {{ form.catogary(class="form-control") }}
+                        </div>
+                        
+
+                        <div class="form-group">
+                            <label for="content" class="description">{{ form.content.label.text}}</label>
+                            {{ form.content(class="form-control") }}
+                        </div>
+
+                        {% if form.errors %}
+                        <ul class="errors">
+                            {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+                                {% for error in field_errors %}
+                                    <li>{{ form[field_name].label }}: {{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                        <div class="form-group">
+                                {{ form.save_post(class="btn btn-primary") }}
+                            <button class="btn btn-default">
+                                Cancel
+                            </button>
+                        </div>
+
+                    </form>
+                </div><!-- end content-->
+            </div><!--  end card  -->
+        </div> <!-- end col-md-12 -->
+    </div> <!-- end row -->
+
+    {% endblock %}
+
+    {% block extra_script %}
+
+    <script src="{{url_for('dashboard.static', filename='/js/tinymce/tinymce.min.js')}}" referrerpolicy="origin"></script>
+    <script>
+    tinymce.init({
+        selector: 'textarea',
+        plugins: [
+            'advlist autolink bootstrap link image imagetools lists charmap print preview hr anchor pagebreak spellchecker',
+            'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+            'save table contextmenu directionality template paste textcolor codesample'
+        ],
+        imagetools_toolbar: "rotateleft rotateright | flipv fliph | editimage imageoptions",
+        toolbar: [
+        'undo redo | bootstrap',
+        'cut copy paste | styleselect | alignleft aligncenter alignright alignjustify | bold italic | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons | codesample| code | help',],
+        contextmenu: "link image imagetools table spellchecker | bootstrap",
+        file_picker_types: 'file image media',
+        entity_encoding : "raw",
+        bootstrapConfig: {
+            iconFont: 'fontawesome5',
+            imagesPath: '/demo/demo-images',
+            key: 'tbpKey',
+            url: "{{url_for('dashboard.static', filename='js/tinymce')}}",
+            bootstrapCss: "{{url_for('dashboard.static', filename='css/bootstrap.min.css')}}",
+        },
+        images_upload_url: "{{ url_for('gallery.upload') }}",
+        automatic_uploads: true,
+        images_reuse_filename: false,
+        images_upload_base_path: '/static/uploads',
+        codesample_languages: [
+            { text: 'HTML/XML', value: 'markup' },
+            { text: 'JavaScript', value: 'javascript' },
+            { text: 'CSS', value: 'css' },
+            { text: 'Processing', value: 'processing' },
+            { text: 'Python', value: 'python' }
+        ],
+        width: "100%",
+    });
+    </script>
+
+<script>
+
+    function slugify(string) {
+        return string
+        .toString()
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, "-")
+        .replace(/[^\w\-]+/g, "")
+        .replace(/\-\-+/g, "-")
+        .replace(/^-+/, "")
+        .replace(/-+$/, "");
+    }
+
+    
+    $("input[name~='slug']").focus(function(){
+        if ( $("input[name~='slug']").val() == "" ) {  
+            var title = $("input[name~='title']").val() ;
+            $("input[name~='slug']").val(slugify(title));  
+        } 
+    });
+</script>
+    {% endblock %}
